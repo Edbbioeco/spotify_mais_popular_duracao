@@ -18,6 +18,13 @@ dados |> dplyr::glimpse()
 
 ## Tratando ----
 
+dados %<>%
+  dplyr::mutate(duration_ms = duration_ms / 1000)
+
+dados
+
+dados |> dplyr::glimpse()
+
 # Histograma dos valores numérciso ----
 
 ## Nomes das variáveis ----
