@@ -51,3 +51,35 @@ histo_vars <- function(nomes_var){
 }
 
 purrr::walk(nomes_var, histo_vars)
+
+# Gráfico de barra dos valores categóricos ----
+
+## Nomes das variáveis ----
+
+nomes_var_cat <- dados |> 
+  dplyr::select_if(is.character) |> 
+  names()
+
+nomes_var_cat
+
+## Loop para todas as variáveis ----
+
+bar_vars <- function(nomes_var_cat){
+  
+  ggplt <- dados |> 
+    dplyr::select(nomes_var_cat) |> 
+    tidyr::pivot_longer(cols = dplyr::everything(),
+                        names_to = "Variável",
+                        values_to = "Categoria") |> 
+    dplyr::summarise(Quantidade = dplyr::n(),
+                     .by = Categoria) |> 
+    ggplot(aes(Categoria, Quantidade)) +
+    geom_col(color = "black") +
+    labs(title = nomes_var) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  
+  print(ggplt)
+  
+}
+
+purrr::walk(nomes_var_cat, bar_vars)
